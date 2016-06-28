@@ -122,5 +122,66 @@ namespace LocalIssueTracker.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", new { id = issueId });
         }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+
+            Issue issue = db.Issues.Find(id);
+            return View(issue);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Issue issue = db.Issues.Find(id);
+            int projectId = issue.Project.ProjectID;
+            db.Issues.Remove(issue);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Projects", new { id = projectId });
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if(id == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+
+            Issue issue = db.Issues.Find(id);
+            return View(issue);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="IssueID,Name,Description,IssueStatus")] Issue issue)
+        {
+            if (issue.IssueID == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+
+            Issue i = db.Issues.Find(issue.IssueID);
+            i.Name = issue.Name;
+            i.Description = issue.Description;
+            i.ModifiedDate = DateTime.Now;
+            i.IssueStatus = issue.IssueStatus;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = i.IssueID });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

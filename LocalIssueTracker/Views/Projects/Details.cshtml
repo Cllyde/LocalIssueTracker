@@ -36,30 +36,23 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Create Issue", "Create", "Issues", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
     @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
 </p>
 <hr />
 @if (Model.Issues.Count > 0)
 {
+    var completeCount = (decimal)Model.Issues.Where(i => i.IssueStatus == LocalIssueTracker.Models.IssueStatus.Closed).Count();
+    var totalCount = (decimal)Model.Issues.Count;
+    var percentComplete = Math.Round((completeCount / totalCount) * 100, MidpointRounding.ToEven);
     <div>
         <h3>Current issues</h3>
-        <div class="row">
-            <div class="col-md-6 boldfont">Name</div>
-            <div class="col-md-2 boldfont">Date Created</div>
-            <div class="col-md-2 boldfont">Date Modified</div>
-            <div class="col-md-2 boldfont">Status</div>
-        </div>
-        @foreach (var issue in Model.Issues)
-        {
-            <div class="row">
-                <div class="col-md-6">@Html.ActionLink(issue.Name, "Details", "Issues", new { id = issue.IssueID }, null)</div>
-                <div class="col-md-2">@issue.CreatedDate</div>
-                <div class="col-md-2">@issue.ModifiedDate</div>
-                <div class="col-md-2">@issue.IssueStatus</div>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="@percentComplete" aria-valuemin="0" aria-valuemax="100" style="width: @percentComplete%; min-width: 2em;">
+                @percentComplete%
             </div>
-        }
+        </div>
+        @Html.DisplayFor(model => model.Issues, "IssuesList")
     </div>
 }
 else
@@ -68,3 +61,7 @@ else
         <h3>No current issues</h3>
     </div>
 }
+<br />
+<p>
+    @Html.ActionLink("Create Issue", "Create", "Issues", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
+</p>

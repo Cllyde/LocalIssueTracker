@@ -246,6 +246,9 @@
     <Content Include="Views\Issues\Create.cshtml" />
     <Content Include="Views\Issues\Details.cshtml" />
     <Content Include="Views\Issues\_IssueStatus.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\IssuesList.cshtml" />
+    <Content Include="Views\Issues\Delete.cshtml" />
+    <Content Include="Views\Issues\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

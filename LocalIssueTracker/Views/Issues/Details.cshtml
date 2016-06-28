@@ -53,6 +53,8 @@
     </dl>
 </div>
 <p>
+    @Html.ActionLink("Delete Issue", "Delete", new { id = Model.IssueID }, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IssueID }, new { @class = "btn btn-default" })
     @Html.ActionLink("Back to Project", "Details", "Projects", new { id = Model.IssueProjectID }, new { @class = "btn btn-default" })
 </p>
 <hr />
@@ -84,29 +86,33 @@
         <h4>No comments</h4>
     }
 
-    @using (Html.BeginForm())
+    @if (Model.IssueStatus == LocalIssueTracker.Models.IssueStatus.Open)
     {
-        @Html.AntiForgeryToken()
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <hr />
-            <h3>New Comment:</h3>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.NewCommentText, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.NewCommentText, 5, 1, new { @class = "form-control", style = "min-width: 100%" })
-                    @Html.ValidationMessageFor(model => model.NewCommentText, "", new { @class = "text-danger" })
+            <div class="form-horizontal">
+                <hr />
+                <h3>New Comment:</h3>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NewCommentText, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.NewCommentText, 5, 1, new { @class = "form-control", style = "min-width: 100%" })
+                        @Html.ValidationMessageFor(model => model.NewCommentText, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Submit Comment" class="btn btn-default" />
+                        <input type="submit" value="Submit and Close" class="btn btn-warning" />
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Submit" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-
-        @Html.HiddenFor(model => model.IssueID)
+            @Html.HiddenFor(model => model.IssueID)
+        }
     }
 </div>

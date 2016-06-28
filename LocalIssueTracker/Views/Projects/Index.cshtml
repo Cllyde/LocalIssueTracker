@@ -42,7 +42,9 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ProjectID }, new { @class = "btn btn-sm btn-default" })
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProjectID }, new { @class = "btn btn-sm btn-default" })
+            @{var disabled = item.Issues.Count > 0 ? "disabled" : "";}
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.ProjectID }, new { @class = "btn btn-sm btn-default @disabled" })*@
+            <a href="/Projects/Delete/@item.ProjectID" class="btn btn-sm btn-default @disabled">Delete</a>
         </td>
     </tr>
 }

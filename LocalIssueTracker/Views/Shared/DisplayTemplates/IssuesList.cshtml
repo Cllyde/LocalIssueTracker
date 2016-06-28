@@ -1,0 +1,18 @@
+﻿@model ICollection<LocalIssueTracker.Models.Issue>
+@foreach (var issue in @Model.OrderBy(i => i.ModifiedDate))
+{
+    <div class="row">
+        @{var panelStyle = issue.IssueStatus == LocalIssueTracker.Models.IssueStatus.Open ? "success" : "warning";}
+        <div class="panel panel-@panelStyle">
+            <div class="panel-heading" style="padding: 0">
+                <a href="/Issues/Details/@issue.IssueID" style="display: block; padding: 10px 15px; color: black; text-decoration: none;">
+                    <span>@issue.Name</span>
+                    <span class="pull-right">@issue.ModifiedDate</span>
+                </a>
+            </div>
+            <div class="panel-body">
+                @issue.Description
+            </div>
+        </div>
+    </div>
+}
