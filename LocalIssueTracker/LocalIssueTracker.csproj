@@ -244,6 +244,7 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Issues\Create.cshtml" />
     <Content Include="Views\Issues\Details.cshtml" />
+    <Content Include="Views\Issues\_IssueStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

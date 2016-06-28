@@ -1,15 +1,22 @@
 ﻿@model LocalIssueTracker.Models.Issue
 
 @{
-    ViewBag.Title = "Issue - Details";
+    ViewBag.Title = "Issues - Details";
 }
 
 <h2>Project: @Model.Project.Name</h2>
 
 <div>
-    <h4>Issue: @Html.DisplayFor(model => model.Name)</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -39,7 +46,12 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IssueStatus)
+            <div id="issueStatusDiv">
+                @Html.Partial("_IssueStatus", @Model.IssueStatus.ToString())
+            </div>
         </dd>
     </dl>
 </div>
+<p>
+    @Html.ActionLink("Back to Project", "Details", "Projects", new { id = Model.Project.ProjectID }, new { @class = "btn btn-default" })
+</p>
