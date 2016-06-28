@@ -1,0 +1,70 @@
+﻿@model LocalIssueTracker.Models.Project
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Project</h2>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Name)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Create Issue", "Create", "Issues", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</p>
+<hr />
+@if (Model.Issues.Count > 0)
+{
+    <div>
+        <h3>Current issues</h3>
+        <div class="row">
+            <div class="col-md-6 boldfont">Name</div>
+            <div class="col-md-2 boldfont">Date Created</div>
+            <div class="col-md-2 boldfont">Date Modified</div>
+            <div class="col-md-2 boldfont">Status</div>
+        </div>
+        @foreach (var issue in Model.Issues)
+        {
+            <div class="row">
+                <div class="col-md-6">@Html.ActionLink(issue.Name, "Details", "Issues", new { id = issue.IssueID }, null)</div>
+                <div class="col-md-2">@issue.CreatedDate</div>
+                <div class="col-md-2">@issue.ModifiedDate</div>
+                <div class="col-md-2">@issue.IssueStatus</div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>
+        <h3>No current issues</h3>
+    </div>
+}
