@@ -112,7 +112,15 @@
                 </div>
             </div>
 
+            @Html.HiddenFor(model => model.IssueComments)
+            @Html.HiddenFor(model => model.IssueCreatedDate)
+            @Html.HiddenFor(model => model.IssueDescription)
             @Html.HiddenFor(model => model.IssueID)
+            @Html.HiddenFor(model => model.IssueModifiedDate)
+            @Html.HiddenFor(model => model.IssueName)
+            @Html.HiddenFor(model => model.IssueProjectID)
+            @Html.HiddenFor(model => model.IssueProjectName)
+            @Html.HiddenFor(model => model.IssueStatus)
         }
     }
 </div>

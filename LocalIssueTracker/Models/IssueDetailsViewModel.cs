@@ -46,7 +46,8 @@ namespace LocalIssueTracker.Models
         public ICollection<IssueComment> IssueComments { get; set; }
 
         [DisplayName("Text")]
-        [Required, StringLength(350, MinimumLength=10, ErrorMessage="Comment Text has to have at least 10 characters")]
+        [Required]
+        [StringLength(350, MinimumLength=10, ErrorMessage="Comment Text has to have at least 10 characters")]
         public string NewCommentText { get; set; }
     }
 }

@@ -77,8 +77,12 @@ namespace LocalIssueTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult Details([Bind(Include = "IssueID,NewCommentText")]IssueDetailsViewModel vm)
+        public ActionResult Details([Bind(Include = "IssueProjectID,IssueProjectName,IssueID,IssueName,IssueDescription,IssueCreatedDate,IssueModifiedDate,IssueStatus,IssueComments,NewCommentText")]IssueDetailsViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
             if (vm.IssueID == 0)
             {
                 throw new ArgumentException("The IssueID cannot be 0.");
