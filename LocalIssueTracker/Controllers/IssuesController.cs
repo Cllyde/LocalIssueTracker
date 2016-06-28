@@ -160,9 +160,9 @@ namespace LocalIssueTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include="IssueID,Name,Description,IssueStatus")] Issue issue)
         {
-            if (issue.IssueID == null)
+            if (issue.IssueID == 0)
             {
-                throw new ArgumentNullException("id");
+                throw new ArgumentException("id");
             }
 
             Issue i = db.Issues.Find(issue.IssueID);
