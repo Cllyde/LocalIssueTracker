@@ -72,7 +72,55 @@ namespace LocalIssueTracker.Controllers
             {
                 return HttpNotFound();
             }
-            return View(issue);
+            IssueDetailsViewModel vm = new IssueDetailsViewModel(issue);
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Details([Bind(Include = "IssueID,NewCommentText")]IssueDetailsViewModel vm)
+        {
+            if (vm.IssueID == 0)
+            {
+                throw new ArgumentException("The IssueID cannot be 0.");
+            }
+
+            Issue i = db.Issues.Find(vm.IssueID);
+
+            if (i == null)
+            {
+                throw new KeyNotFoundException(String.Format("The issue for ID {0} was not found.", vm.IssueID));
+            }
+
+            IssueComment ic = new IssueComment();
+            ic.CreatedDate = DateTime.Now;
+            ic.ModifiedDate = DateTime.Now;
+            ic.Text = vm.NewCommentText;
+            ic.Issue = i;
+
+            db.IssueComments.Add(ic);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = vm.IssueID });
+        }
+
+        public ActionResult DeleteIssueComment(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+
+            IssueComment ic = db.IssueComments.Find(id);
+
+            if (ic == null)
+            {
+                throw new KeyNotFoundException(String.Format("IssueComment for ID {0} not found.", id));
+            }
+
+            int issueId = ic.Issue.IssueID;
+            db.IssueComments.Remove(ic);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = issueId });
         }
     }
 }

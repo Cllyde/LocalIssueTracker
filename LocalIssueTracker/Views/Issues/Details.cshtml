@@ -1,44 +1,44 @@
-﻿@model LocalIssueTracker.Models.Issue
+﻿@model LocalIssueTracker.Models.IssueDetailsViewModel
 
 @{
     ViewBag.Title = "Issues - Details";
 }
 
-<h2>Project: @Model.Project.Name</h2>
+<h2>Project: @Model.IssueProjectName</h2>
 
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.IssueName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.IssueName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.IssueDescription)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.IssueDescription)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            @Html.DisplayNameFor(model => model.IssueCreatedDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
+            @Html.DisplayFor(model => model.IssueCreatedDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
+            @Html.DisplayNameFor(model => model.IssueModifiedDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ModifiedDate)
+            @Html.DisplayFor(model => model.IssueModifiedDate)
         </dd>
 
         <dt>
@@ -53,5 +53,60 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to Project", "Details", "Projects", new { id = Model.Project.ProjectID }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Back to Project", "Details", "Projects", new { id = Model.IssueProjectID }, new { @class = "btn btn-default" })
 </p>
+<hr />
+<h3>Comments:</h3>
+<div>
+    @if (Model.IssueComments.Count > 0)
+    {
+        foreach (var comment in Model.IssueComments)
+        {
+            <div class="row">
+                <div class="col-md-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>@comment.ModifiedDate</span>
+                            <a href="/Issues/DeleteIssueComment/@comment.IssueCommentID">
+                                <span class="glyphicon glyphicon-remove pull-right btn btn-sm btn-danger"></span>
+                            </a>
+                        </div>
+                        <div class="panel-body">
+                            <span>@comment.Text</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h4>No comments</h4>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            <h3>New Comment:</h3>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.NewCommentText, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.NewCommentText, 5, 1, new { @class = "form-control", style = "min-width: 100%" })
+                    @Html.ValidationMessageFor(model => model.NewCommentText, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.IssueID)
+    }
+</div>

@@ -176,6 +176,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\IssueComment.cs" />
+    <Compile Include="Models\IssueDetailsViewModel.cs" />
     <Compile Include="Models\IssueStatus.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />

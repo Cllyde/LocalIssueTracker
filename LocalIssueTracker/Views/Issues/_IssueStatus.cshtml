@@ -1,2 +1,3 @@
 ﻿@model String
-<span class="btn btn-default">@Model.ToString()</span>
+@{var buttonClass = @Model == "Open" ? "success" : "danger";}
+<span class="btn btn-@buttonClass">@Model.ToString()</span>
