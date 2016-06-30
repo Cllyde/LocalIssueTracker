@@ -251,6 +251,7 @@
     <Content Include="Views\Issues\Delete.cshtml" />
     <Content Include="Views\Issues\Edit.cshtml" />
     <Content Include="Views\Issues\_IssueCommentForm.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\IssueComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

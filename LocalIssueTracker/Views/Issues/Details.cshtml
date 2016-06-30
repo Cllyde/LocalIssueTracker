@@ -62,26 +62,9 @@
 <hr />
 <h3>Comments:</h3>
 <div>
-    @if (Model.IssueComments.Count > 0)
+    @if (Model.IssueComments != null && Model.IssueComments.Count > 0)
     {
-        foreach (var comment in Model.IssueComments)
-        {
-            <div class="row">
-                <div class="col-md-offset-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span>@comment.ModifiedDate</span>
-                            <a href="/Issues/DeleteIssueComment/@comment.IssueCommentID">
-                                <span class="glyphicon glyphicon-remove pull-right btn btn-sm btn-danger"></span>
-                            </a>
-                        </div>
-                        <div class="panel-body">
-                            <span>@comment.Text</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+        @Html.DisplayFor(model => model.IssueComments, "IssueComments")
     }
     else
     {
