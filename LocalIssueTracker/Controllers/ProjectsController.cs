@@ -43,8 +43,6 @@ namespace LocalIssueTracker.Controllers
         }
 
         // POST: Projects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectID,Name,Description")] Project project)
@@ -53,60 +51,13 @@ namespace LocalIssueTracker.Controllers
             {
                 project.CreatedDate = DateTime.Now;
                 project.ModifiedDate = DateTime.Now;
+                project.OwnerUserName = User.Identity.Name;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(project);
-        }
-
-        // GET: Projects/CreateIssue/5
-        public ActionResult CreateIssue(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var p = db.Projects.Find(id);
-            if (p == null)
-            {
-                throw new KeyNotFoundException("The project ID provided does not relate to an existing project.");
-            }
-
-            var vm = new CreateIssueViewModel(p);
-
-            return View(vm);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateIssue([Bind(Include = "ProjectID,IssueName,IssueDescription")] CreateIssueViewModel vm)
-        {
-            if (vm == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var p = db.Projects.Find(vm.ProjectID);
-            if (p == null)
-            {
-                throw new KeyNotFoundException("The project ID provided does not relate to an existing project.");
-            }
-
-            var newIssue = new Issue()
-            {
-                CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
-                Name = vm.IssueName,
-                Description = vm.IssueDescription,
-                Project = p,
-            };
-            db.Issues.Add(newIssue);
-            db.SaveChanges();
-
-            return RedirectToAction("Details", new { id = p.ProjectID });
         }
 
         // GET: Projects/Edit/5
@@ -125,8 +76,6 @@ namespace LocalIssueTracker.Controllers
         }
 
         // POST: Projects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectID,Name,Description,CreatedDate,ModifiedDate")] Project project)
