@@ -13,16 +13,16 @@ namespace LocalIssueTracker.Models
 
         public IssueDetailsViewModel(Issue i)
         {
+            IssueComments = i.IssueComments;
+            IssueCreatedDate = i.CreatedDate;
+            IssueDescription = i.Description;
+            IssueID = i.IssueID;
+            IssueModifiedDate = i.ModifiedDate;
+            IssueName = i.Name;
+            IssueOwnerUserName = i.OwnerUserName;
             IssueProjectID = i.Project.ProjectID;
             IssueProjectName = i.Project.Name;
-            IssueID = i.IssueID;
-            IssueName = i.Name;
-            IssueDescription = i.Description;
-            IssueCreatedDate = i.CreatedDate;
-            IssueModifiedDate = i.ModifiedDate;
             IssueStatus = i.IssueStatus;
-            IssueComments = i.IssueComments;
-
             NewCommentText = String.Empty;
         }
 
@@ -40,6 +40,8 @@ namespace LocalIssueTracker.Models
         public DateTime IssueCreatedDate { get; set; }
         [DisplayName("Modified Date")]
         public DateTime IssueModifiedDate { get; set; }
+        [DisplayName("Owner")]
+        public string IssueOwnerUserName { get; set; }
         [DisplayName("Status")]
         public IssueStatus IssueStatus { get; set; }
 
