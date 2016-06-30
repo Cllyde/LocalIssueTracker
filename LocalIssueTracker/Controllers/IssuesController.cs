@@ -216,6 +216,26 @@ namespace LocalIssueTracker.Controllers
             return RedirectToAction("Details", new { id = i.IssueID });
         }
 
+        public ActionResult SwitchStatus(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("id");
+            }
+
+            Issue issue = db.Issues.Find(id);
+            if (issue.IssueStatus == IssueStatus.Open)
+            {
+                issue.IssueStatus = IssueStatus.Closed;
+            }
+            else
+            {
+                issue.IssueStatus = IssueStatus.Open;
+            }
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = issue.IssueID });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
