@@ -90,31 +90,6 @@
 
     @if (Model.IssueStatus == LocalIssueTracker.Models.IssueStatus.Open)
     {
-        using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-                <hr />
-                <h3>New Comment:</h3>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NewCommentText, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.NewCommentText, 5, 1, new { @class = "form-control", style = "min-width: 100%" })
-                        @Html.ValidationMessageFor(model => model.NewCommentText, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" name="action:Comment" value="Submit Comment" class="btn btn-default" />
-                        <input type="submit" name="action:CommentAndClose" value="Submit and Close" class="btn btn-warning" />
-                    </div>
-                </div>
-            </div>
-
-            @Html.HiddenFor(model => model.IssueID)
-        }
+        @Html.Partial("_IssueCommentForm", Model)
     }
 </div>
