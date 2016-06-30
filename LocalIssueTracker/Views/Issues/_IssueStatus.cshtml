@@ -1,4 +1,4 @@
 ﻿@model LocalIssueTracker.Models.IssueStatus
 @using LocalIssueTracker.Models
 @{var buttonClass = @Model == IssueStatus.Open ? "success" : "warning";}
-<span class="btn btn-@buttonClass">@Model.ToString()</span>
+<span class="btn btn-@buttonClass btn-xs">@Model.ToString()</span>
