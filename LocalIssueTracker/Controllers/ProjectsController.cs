@@ -10,6 +10,7 @@ using LocalIssueTracker.Models;
 
 namespace LocalIssueTracker.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ProjectContext db = new ProjectContext();
