@@ -47,7 +47,9 @@
 
         <dd>
             <div id="issueStatusDiv">
-                @Html.Partial("_IssueStatus", @Model.IssueStatus.ToString())
+                <a href="/Issues/SwitchStatus/@Model.IssueID">
+                    @Html.Partial("_IssueStatus", @Model.IssueStatus)
+                </a>
             </div>
         </dd>
     </dl>

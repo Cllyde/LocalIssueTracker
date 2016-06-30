@@ -1,3 +1,4 @@
-﻿@model String
-@{var buttonClass = @Model == "Open" ? "success" : "warning";}
+﻿@model LocalIssueTracker.Models.IssueStatus
+@using LocalIssueTracker.Models
+@{var buttonClass = @Model == IssueStatus.Open ? "success" : "warning";}
 <span class="btn btn-@buttonClass">@Model.ToString()</span>
