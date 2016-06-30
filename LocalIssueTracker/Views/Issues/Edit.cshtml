@@ -1,4 +1,5 @@
 ﻿@model LocalIssueTracker.Models.Issue
+@using LocalIssueTracker.Models
 
 @{
     ViewBag.Title = "Edit";
@@ -10,7 +11,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Issue</h4>
         <hr />
@@ -34,10 +35,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IssueStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.IssueStatus, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IssueStatus, "", new { @class = "text-danger" })
+            <label class="control-label col-md-2">Status</label>
+            <div class="col-md-10" role="group">
+                <div class="btn-group" data-toggle="buttons">
+                    @{var isOpen = Model.IssueStatus == IssueStatus.Open ? "active" : null;}
+                    <label class="btn btn-default @isOpen">
+                        <input type="radio" name="IssueStatus" value="Open" /> <span class="text-success">Open</span>
+                    </label>
+                    @{var isClosed = Model.IssueStatus == IssueStatus.Closed ? "active" : null;}
+                    <label class="btn btn-default @isClosed">
+                        <input type="radio" name="IssueStatus" value="Closed" /> <span class="text-warning">Closed</span>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -50,7 +59,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Details", "Details", new { id = Model.IssueID }, new { @class = "btn btn-default" })
 </div>
 
 @section Scripts {
