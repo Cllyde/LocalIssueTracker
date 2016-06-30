@@ -19,6 +19,8 @@ namespace LocalIssueTracker.Models
         public DateTime ModifiedDate { get; set; }
         [DisplayName("Status")]
         public IssueStatus IssueStatus { get; set; }
+        [DisplayName("Owner")]
+        public string OwnerUserName { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual ICollection<IssueComment> IssueComments { get; set; }

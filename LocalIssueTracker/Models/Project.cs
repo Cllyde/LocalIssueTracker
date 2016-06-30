@@ -17,6 +17,8 @@ namespace LocalIssueTracker.Models
         public DateTime CreatedDate { get; set; }
         [DisplayName("Modified Date")]
         public DateTime ModifiedDate { get; set; }
+        [DisplayName("Owner")]
+        public string OwnerUserName { get; set; }
 
         public virtual List<Issue> Issues { get; set; }
     }
