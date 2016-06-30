@@ -1,4 +1,5 @@
-﻿using LocalIssueTracker.Models;
+﻿using LocalIssueTracker.Attributes;
+using LocalIssueTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,11 +78,12 @@ namespace LocalIssueTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult Details([Bind(Include = "IssueProjectID,IssueProjectName,IssueID,IssueName,IssueDescription,IssueCreatedDate,IssueModifiedDate,IssueStatus,IssueComments,NewCommentText")]IssueDetailsViewModel vm)
+        [MultipleButton(Name = "action", Argument = "Comment")]
+        public ActionResult Comment([Bind(Include = "IssueID,NewCommentText")]IssueDetailsViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                return View(vm);
+                return View("Details", vm);
             }
             if (vm.IssueID == 0)
             {
@@ -104,7 +106,42 @@ namespace LocalIssueTracker.Controllers
             db.IssueComments.Add(ic);
             db.SaveChanges();
 
-            return RedirectToAction("Details", new { id = vm.IssueID });
+            return RedirectToAction("Details", "Issues", new { id = vm.IssueID });
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "CommentAndClose")]
+        public ActionResult CommentAndClose([Bind(Include = "IssueID,NewCommentText")]IssueDetailsViewModel vm)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("Details", vm);
+            }
+            if (vm.IssueID == 0)
+            {
+                throw new ArgumentException("The IssueID cannot be 0.");
+            }
+
+            Issue i = db.Issues.Find(vm.IssueID);
+
+            if (i == null)
+            {
+                throw new KeyNotFoundException(String.Format("The issue for ID {0} was not found.", vm.IssueID));
+            }
+
+            IssueComment ic = new IssueComment();
+            ic.CreatedDate = DateTime.Now;
+            ic.ModifiedDate = DateTime.Now;
+            ic.Text = vm.NewCommentText;
+            ic.Issue = i;
+
+            db.IssueComments.Add(ic);
+            i.IssueStatus = IssueStatus.Closed;
+            i.ModifiedDate = DateTime.Now;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Issues", new { id = vm.IssueID });
         }
 
         public ActionResult DeleteIssueComment(int? id)
@@ -151,7 +188,7 @@ namespace LocalIssueTracker.Controllers
 
         public ActionResult Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 throw new ArgumentNullException("id");
             }
@@ -162,7 +199,7 @@ namespace LocalIssueTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="IssueID,Name,Description,IssueStatus")] Issue issue)
+        public ActionResult Edit([Bind(Include = "IssueID,Name,Description,IssueStatus")] Issue issue)
         {
             if (issue.IssueID == 0)
             {

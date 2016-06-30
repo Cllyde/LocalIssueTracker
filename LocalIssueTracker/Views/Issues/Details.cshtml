@@ -106,21 +106,13 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Submit Comment" class="btn btn-default" />
-                        <input type="submit" value="Submit and Close" class="btn btn-warning" />
+                        <input type="submit" name="action:Comment" value="Submit Comment" class="btn btn-default" />
+                        <input type="submit" name="action:CommentAndClose" value="Submit and Close" class="btn btn-warning" />
                     </div>
                 </div>
             </div>
 
-            @Html.HiddenFor(model => model.IssueComments)
-            @Html.HiddenFor(model => model.IssueCreatedDate)
-            @Html.HiddenFor(model => model.IssueDescription)
             @Html.HiddenFor(model => model.IssueID)
-            @Html.HiddenFor(model => model.IssueModifiedDate)
-            @Html.HiddenFor(model => model.IssueName)
-            @Html.HiddenFor(model => model.IssueProjectID)
-            @Html.HiddenFor(model => model.IssueProjectName)
-            @Html.HiddenFor(model => model.IssueStatus)
         }
     }
 </div>
