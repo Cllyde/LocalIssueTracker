@@ -181,6 +181,11 @@ namespace LocalIssueTracker.Controllers
         {
             Issue issue = db.Issues.Find(id);
             int projectId = issue.Project.ProjectID;
+            var comments = issue.IssueComments.ToList();
+            for (int i = comments.Count - 1; i >= 0; i--)
+            {
+                db.IssueComments.Remove(comments[i]);
+            }
             db.Issues.Remove(issue);
             db.SaveChanges();
             return RedirectToAction("Details", "Projects", new { id = projectId });
